@@ -14,8 +14,9 @@ namespace Employee.API.Entities
         [Required]
         [MaxLength(50)]
         public string DepartmentName { get; set; }
+        public ICollection<Employee> Employees { get; set; }
+           = new List<Employee>();
 
-        
-       
+
     }
 }

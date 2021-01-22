@@ -22,10 +22,8 @@ namespace Employee.API.Entities
         [Required]
         public DateTimeOffset DateOfBirth { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string MainCategory { get; set; }
-
         public Department Department { get; set; }
+
+        public Guid DepartmentId { get; set; }
     }
 }
