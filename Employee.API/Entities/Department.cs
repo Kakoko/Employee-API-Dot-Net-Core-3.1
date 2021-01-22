@@ -10,7 +10,6 @@ namespace Employee.API.Entities
     {
         [Key]
         public Guid Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string DepartmentName { get; set; }

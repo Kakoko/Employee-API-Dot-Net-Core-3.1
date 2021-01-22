@@ -15,7 +15,7 @@ namespace Employee.API.DBContext
         }
 
         //Exposing the Database Tables
-        public DbSet<Entities.Employee> Authors { get; set; }
+        public DbSet<Entities.Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
 
 
@@ -33,7 +33,7 @@ namespace Employee.API.DBContext
                 },
                 new Entities.Employee()
                 {
-                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
+                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b36"),
                     FirstName = "Andrew",
                     LastName = "Khonje",
                     DateOfBirth = new DateTime(1650, 7, 23),
@@ -41,7 +41,7 @@ namespace Employee.API.DBContext
                 },
                 new Entities.Employee()
                 {
-                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
+                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b37"),
                     FirstName = "Qina",
                     LastName = "Jere",
                     DateOfBirth = new DateTime(1650, 7, 23),
@@ -49,7 +49,7 @@ namespace Employee.API.DBContext
                 },
                 new Entities.Employee()
                 {
-                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
+                    Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b38"),
                     FirstName = "Lusayo",
                     LastName = "Mwainsimba",
                     DateOfBirth = new DateTime(1650, 7, 23),
