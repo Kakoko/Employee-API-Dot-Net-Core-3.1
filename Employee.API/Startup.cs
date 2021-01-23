@@ -1,4 +1,5 @@
 using Employee.API.DBContext;
+using Employee.API.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace Employee.API
         {
             services.AddControllers();
 
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             services.AddDbContext<EmployeeContext>(options =>
             {
