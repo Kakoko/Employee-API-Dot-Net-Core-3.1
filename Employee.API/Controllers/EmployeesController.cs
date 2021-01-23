@@ -25,7 +25,7 @@ namespace Employee.API.Controllers
         public IActionResult GetEmployee()
         {
             var employeesFromRepo = _employeeRepository.GetEmployees();
-            return new JsonResult(employeesFromRepo);
+            return Ok(employeesFromRepo);
         }
 
 
@@ -33,7 +33,12 @@ namespace Employee.API.Controllers
         public IActionResult GetEmployee(Guid employeeId)
         {
             var employeeFromRepo = _employeeRepository.GetEmployee(employeeId);
-            return new JsonResult(employeeFromRepo);
+
+            if(employeeFromRepo == null)
+            {
+                return NotFound();
+            }
+            return Ok(employeeFromRepo);
         }
     }
 }
