@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 
 namespace Employee.API.Controllers
 {
-    [Route("api/[controller]")]
-
-
+    [Route("api/employees")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
@@ -23,10 +21,19 @@ namespace Employee.API.Controllers
         }
 
 
+        [HttpGet]
         public IActionResult GetEmployee()
         {
             var employeesFromRepo = _employeeRepository.GetEmployees();
             return new JsonResult(employeesFromRepo);
+        }
+
+
+        [HttpGet("{employeeId}")]
+        public IActionResult GetEmployee(Guid employeeId)
+        {
+            var employeeFromRepo = _employeeRepository.GetEmployee(employeeId);
+            return new JsonResult(employeeFromRepo);
         }
     }
 }
