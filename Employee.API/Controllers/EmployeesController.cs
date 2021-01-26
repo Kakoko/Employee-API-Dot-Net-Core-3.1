@@ -24,7 +24,7 @@ namespace Employee.API.Controllers
 
 
         [HttpGet]
-        public IActionResult GetEmployees()
+        public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees()
         {
             var employeesFromRepo = _employeeRepository.GetEmployees();
             var employees = new List<EmployeeDTO>();
@@ -45,7 +45,7 @@ namespace Employee.API.Controllers
 
 
         [HttpGet("{employeeId}")]
-        public IActionResult GetEmployee(Guid employeeId)
+        public ActionResult<EmployeeDTO> GetEmployee(Guid employeeId)
         {
             var employeeFromRepo = _employeeRepository.GetEmployee(employeeId);
 
