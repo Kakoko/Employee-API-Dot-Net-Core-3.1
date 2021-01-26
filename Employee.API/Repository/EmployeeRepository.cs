@@ -58,6 +58,27 @@ namespace Employee.API.Repository
             return _context.Employees.Where(a => a.DepartmentId == departmentId);
         }
 
+
+        public Department GetDepartment(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(departmentId));
+            }
+
+            return _context.Departments.FirstOrDefault(a => a.Id == departmentId);
+        }
+
+
+        public bool DepartmentExists(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(departmentId));
+            }
+
+            return _context.Departments.Any(a => a.Id == departmentId);
+        }
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);
@@ -76,5 +97,7 @@ namespace Employee.API.Repository
                 // dispose resources when needed
             }
         }
+
+       
     }
 }

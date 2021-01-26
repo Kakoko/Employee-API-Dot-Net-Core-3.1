@@ -1,4 +1,6 @@
-﻿using Employee.API.Repository;
+﻿using Employee.API.Helpers;
+using Employee.API.Models;
+using Employee.API.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,10 +24,23 @@ namespace Employee.API.Controllers
 
 
         [HttpGet]
-        public IActionResult GetEmployee()
+        public IActionResult GetEmployees()
         {
             var employeesFromRepo = _employeeRepository.GetEmployees();
-            return Ok(employeesFromRepo);
+            var employees = new List<EmployeeDTO>();
+
+            foreach (var employee in employeesFromRepo)
+            {
+                employees.Add(new EmployeeDTO()
+                {
+                    Id = employee.Id,
+                    Name = $"{employee.FirstName} {employee.LastName}",
+                    Age = employee.DateOfBirth.GetCurrentAge(),
+                    Department = _employeeRepository.GetDepartment(employee.DepartmentId).DepartmentName
+
+                }) ;
+            }
+            return Ok(employees);
         }
 
 

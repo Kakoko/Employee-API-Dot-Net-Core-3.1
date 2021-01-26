@@ -13,6 +13,8 @@ namespace Employee.API.Repository
         IEnumerable<Department> GetDepartments();
         Entities.Employee GetEmployee(Guid employeeId);
         bool EmployeeExists(Guid employeeId);
+        bool DepartmentExists(Guid departmentId);
+        Department GetDepartment(Guid departmentId);
         bool Save();
     }
 }
