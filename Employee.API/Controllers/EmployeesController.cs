@@ -53,7 +53,15 @@ namespace Employee.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(employeeFromRepo);
+
+            var employee = new EmployeeDTO() {
+
+                Id = employeeFromRepo.Id,
+                Name = $"{employeeFromRepo.FirstName} {employeeFromRepo.LastName}",
+                Age = employeeFromRepo.DateOfBirth.GetCurrentAge(),
+                Department = _employeeRepository.GetDepartment(employeeFromRepo.DepartmentId).DepartmentName
+            };
+            return Ok(employee);
         }
     }
 }
