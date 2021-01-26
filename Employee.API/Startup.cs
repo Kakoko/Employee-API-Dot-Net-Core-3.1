@@ -1,3 +1,4 @@
+using AutoMapper;
 using Employee.API.DBContext;
 using Employee.API.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,8 @@ namespace Employee.API
             services.AddControllers( setupAction =>{
                 setupAction.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
