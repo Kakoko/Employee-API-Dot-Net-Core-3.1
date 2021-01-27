@@ -1,4 +1,5 @@
-﻿using Employee.API.Helpers;
+﻿using AutoMapper;
+using Employee.API.Helpers;
 using Employee.API.Models;
 using Employee.API.Repository;
 using Microsoft.AspNetCore.Http;
@@ -15,11 +16,13 @@ namespace Employee.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeRepository employeeRepository)
+        public EmployeesController(IEmployeeRepository employeeRepository , IMapper mapper)
         {
             _employeeRepository = employeeRepository ?? 
                 throw new ArgumentNullException(nameof(employeeRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 
@@ -27,20 +30,7 @@ namespace Employee.API.Controllers
         public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees()
         {
             var employeesFromRepo = _employeeRepository.GetEmployees();
-            var employees = new List<EmployeeDTO>();
-
-            foreach (var employee in employeesFromRepo)
-            {
-                employees.Add(new EmployeeDTO()
-                {
-                    Id = employee.Id,
-                    Name = $"{employee.FirstName} {employee.LastName}",
-                    Age = employee.DateOfBirth.GetCurrentAge(),
-                    Department = _employeeRepository.GetDepartment(employee.DepartmentId).DepartmentName
-
-                }) ;
-            }
-            return Ok(employees);
+            return Ok(_mapper.Map<IEnumerable<EmployeeDTO>>(employeesFromRepo));
         }
 
 
@@ -54,14 +44,7 @@ namespace Employee.API.Controllers
                 return NotFound();
             }
 
-            var employee = new EmployeeDTO() {
-
-                Id = employeeFromRepo.Id,
-                Name = $"{employeeFromRepo.FirstName} {employeeFromRepo.LastName}",
-                Age = employeeFromRepo.DateOfBirth.GetCurrentAge(),
-                Department = _employeeRepository.GetDepartment(employeeFromRepo.DepartmentId).DepartmentName
-            };
-            return Ok(employee);
+            return Ok(_mapper.Map<EmployeeDTO>(employeeFromRepo));
         }
     }
 }

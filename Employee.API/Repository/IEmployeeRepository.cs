@@ -14,7 +14,7 @@ namespace Employee.API.Repository
         Entities.Employee GetEmployee(Guid employeeId);
         bool EmployeeExists(Guid employeeId);
         bool DepartmentExists(Guid departmentId);
-        Department GetDepartment(Guid departmentId);
+        string GetDepartment(Guid departmentId);
         bool Save();
     }
 }

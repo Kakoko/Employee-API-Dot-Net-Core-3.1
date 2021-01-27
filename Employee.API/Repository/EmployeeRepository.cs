@@ -17,6 +17,9 @@ namespace Employee.API.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public EmployeeRepository()
+        {
+        }
 
         public bool EmployeeExists(Guid employeeId)
         {
@@ -25,6 +28,7 @@ namespace Employee.API.Repository
                 throw new ArgumentNullException(nameof(employeeId));
             }
 
+           
             return _context.Employees.Any(a => a.Id == employeeId);
         }
 
@@ -40,12 +44,42 @@ namespace Employee.API.Repository
                 throw new ArgumentNullException(nameof(employeeId));
             }
 
-            return _context.Employees.FirstOrDefault(a => a.Id == employeeId);
+
+            var employeeFromRepo = _context.Employees.FirstOrDefault(a => a.Id == employeeId);
+            var employeeWithDepartment = new Entities.Employee()
+            {
+                Id = employeeFromRepo.Id,
+                FirstName = employeeFromRepo.FirstName,
+                LastName = employeeFromRepo.LastName,
+                DateOfBirth = employeeFromRepo.DateOfBirth,
+                DepartmentId = employeeFromRepo.DepartmentId,
+                Department = _context.Departments.FirstOrDefault(u => u.Id == employeeFromRepo.DepartmentId)
+            } ;
+
+           
+
+            return employeeWithDepartment;
         }
 
         public IEnumerable<Entities.Employee> GetEmployees()
         {
-            return _context.Employees.ToList<Entities.Employee>();
+            var employeesFromRepo =  _context.Employees.ToList<Entities.Employee>();
+            var employeesWithDepartmentName = new List<Entities.Employee>();
+
+            foreach (var employee in employeesFromRepo)
+            {
+                employeesWithDepartmentName.Add(new Entities.Employee
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    DateOfBirth = employee.DateOfBirth,
+                    DepartmentId = employee.DepartmentId,
+                    Department = _context.Departments.FirstOrDefault(u => u.Id == employee.DepartmentId)
+
+                });
+            }
+            return employeesWithDepartmentName;
         }
 
         public IEnumerable<Entities.Employee> GetEmployeesByDepartment(Guid departmentId)
@@ -59,25 +93,42 @@ namespace Employee.API.Repository
         }
 
 
-        public Department GetDepartment(Guid departmentId)
+        public string GetDepartment(Guid departmentId)
         {
             if (departmentId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(departmentId));
             }
 
-            return _context.Departments.FirstOrDefault(a => a.Id == departmentId);
+            if (DepartmentExists(departmentId))
+            {
+                return _context.Departments.FirstOrDefault(a => a.Id == departmentId).DepartmentName;
+            }
+            throw new Exception();
         }
 
 
         public bool DepartmentExists(Guid departmentId)
         {
+
+
+            var res = false;
             if (departmentId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(departmentId));
             }
+            
+            try
+            {
+                res = _context.Departments.Any(a => a.Id == departmentId);
+            }
+            catch (Exception e)
+            {
 
-            return _context.Departments.Any(a => a.Id == departmentId);
+                throw e;
+            }
+            
+            return res;
         }
         public bool Save()
         {
