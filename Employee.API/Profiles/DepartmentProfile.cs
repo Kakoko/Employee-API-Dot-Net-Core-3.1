@@ -10,7 +10,10 @@ namespace Employee.API.Profiles
     {
         public DepartmentProfile()
         {
-            CreateMap<Entities.Department, Models.DepartmentDTO>();
+            CreateMap<Entities.Employee, Models.DepartmentDTO>()
+                .ForMember(
+                    dest => dest.Name,
+                    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
         }
     }
 }

@@ -7,8 +7,12 @@ namespace Employee.API.Models
 {
     public class DepartmentDTO
     {
-        public string DepartmentName { get; set; }
-        public ICollection<Entities.Employee> Employees { get; set; }
-         = new List<Entities.Employee>();
+
+
+
+        public Guid Id { get; set; }
+        public string Name { get; set; }  
+        
+        
     }
 }

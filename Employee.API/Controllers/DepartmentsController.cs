@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Employee.API.Models;
 using Employee.API.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,5 +25,36 @@ namespace Employee.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+
+        [HttpGet]
+        public ActionResult<IEnumerable<DepartmentDTO>> GetEmployeesByDepartment(Guid departmentId)
+        {
+            if (!_employeeRepository.DepartmentExists(departmentId))
+            {
+                return NotFound();
+            }
+
+            var employeesByDepartmentFromRepo = _employeeRepository.GetEmployeesByDepartment(departmentId);
+
+            return Ok(_mapper.Map<IEnumerable<DepartmentDTO>>(employeesByDepartmentFromRepo));
+        }
+
+        [HttpGet("{employeeId}")]
+        public ActionResult<DepartmentDTO> GetEmployeeByDepartment(Guid departmentId , Guid employeeId)
+        {
+            if(!_employeeRepository.EmployeeExists(employeeId))
+            {
+                return NotFound();;
+            }
+
+            var employeeFromEmployeeRepo = _employeeRepository.GetEmployeeByDepartment(departmentId);
+
+            if(employeeFromEmployeeRepo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<DepartmentDTO>(employeeFromEmployeeRepo));
+        }
     }
 }

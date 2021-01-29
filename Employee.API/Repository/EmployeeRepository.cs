@@ -89,9 +89,26 @@ namespace Employee.API.Repository
                 throw new ArgumentNullException(nameof(departmentId));
             }
 
-            return _context.Employees.Where(a => a.DepartmentId == departmentId);
+            var employeesFromRepo = _context.Employees.Where(a => a.DepartmentId == departmentId);
+
+            
+
+            return employeesFromRepo;
         }
 
+        public Entities.Employee GetEmployeeByDepartment(Guid departmentId)
+        {
+            if (departmentId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(departmentId));
+            }
+
+            var employeeFromRepo = _context.Employees.Where(a => a.Id == departmentId);
+
+
+
+            return (Entities.Employee)employeeFromRepo;
+        }
 
         public string GetDepartment(Guid departmentId)
         {
