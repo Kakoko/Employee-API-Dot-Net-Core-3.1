@@ -29,6 +29,8 @@ namespace Employee.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees()
         {
+
+            //throw new Exception("Test");
             var employeesFromRepo = _employeeRepository.GetEmployees();
             return Ok(_mapper.Map<IEnumerable<EmployeeDTO>>(employeesFromRepo));
         }

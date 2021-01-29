@@ -14,10 +14,10 @@ namespace EmployeeConsoleUI
         static void Main(string[] args)
         {
          IEmployeeRepository _employeeRepository = new EmployeeRepository();
-        DatabaseExtensionMethods databaseExtensionMethods = new DatabaseExtensionMethods(_employeeRepository);
+        //DatabaseExtensionMethods databaseExtensionMethods = new DatabaseExtensionMethods(_employeeRepository);
 
-            var res = databaseExtensionMethods.GetDepartmentName(Guid.Parse("D173E20D-159E-4127-9CE9-B0AC2564AD97"));
-     Console.WriteLine(res);
+          //  var res = databaseExtensionMethods.GetDepartmentName(Guid.Parse("D173E20D-159E-4127-9CE9-B0AC2564AD97"));
+    /// Console.WriteLine(res);
         //var employeeFromRepo = employeeRepository.GetEmployee(Guid.Parse("D28888E9-2BA9-473A-A40F-E38CB54F9B35"));
 
         //    if (employeeFromRepo == null)
