@@ -27,6 +27,7 @@ namespace Employee.API.Controllers
 
 
         [HttpGet]
+        [HttpHead]
         public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees()
         {
 
