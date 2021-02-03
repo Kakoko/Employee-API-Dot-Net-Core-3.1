@@ -40,7 +40,7 @@ namespace Employee.API
             services.AddDbContext<EmployeeContext>(options =>
             {
                 options.UseSqlServer(
-                    @"Server=.;Database=EmployeeAPIDB;Trusted_Connection=True;");
+                    @"Server=.;Database=EmployeeAPIDB;Trusted_Connection=True;MultipleActiveResultSets = True");
             });
         }
 

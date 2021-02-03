@@ -69,7 +69,7 @@ namespace Employee.API.Repository
             foreach (var employee in employeesFromRepo)
             {
                 employeesWithDepartmentName.Add(new Entities.Employee
-                {
+                {   
                     Id = employee.Id,
                     FirstName = employee.FirstName,
                     LastName = employee.LastName,
@@ -82,6 +82,54 @@ namespace Employee.API.Repository
             return employeesWithDepartmentName;
         }
 
+
+        public IEnumerable<Entities.Employee> GetEmployees(string departmentName , string searchQuery)
+        {
+            if (string.IsNullOrWhiteSpace(departmentName)
+                && string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return GetEmployees();
+            }
+
+            
+            var collection = _context.Employees as IQueryable<Entities.Employee>;
+            var employeesWithDepartmentName = new List<Entities.Employee>();
+
+
+            foreach (var employee in collection)
+            {
+                employeesWithDepartmentName.Add(new Entities.Employee
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    DateOfBirth = employee.DateOfBirth,
+                    DepartmentId = employee.DepartmentId,
+                    Department = _context.Departments.FirstOrDefault(u => u.Id == employee.DepartmentId)
+
+                });
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(departmentName))
+            {
+
+                departmentName = departmentName.Trim();
+                employeesWithDepartmentName = employeesWithDepartmentName.Where(a => a.Department.DepartmentName == departmentName).ToList();
+
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                searchQuery = searchQuery.Trim();
+                employeesWithDepartmentName = employeesWithDepartmentName.Where(a => a.FirstName.Contains(searchQuery)
+                || a.LastName.Contains(searchQuery)).ToList();
+            }
+
+
+            return employeesWithDepartmentName;
+        }
+
         public IEnumerable<Entities.Employee> GetEmployeesByDepartment(Guid departmentId)
         {
             if (departmentId == Guid.Empty)
@@ -90,6 +138,7 @@ namespace Employee.API.Repository
             }
 
             var employeesFromRepo = _context.Employees.Where(a => a.DepartmentId == departmentId);
+
 
             
 

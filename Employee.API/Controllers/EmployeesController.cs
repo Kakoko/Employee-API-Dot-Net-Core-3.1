@@ -28,11 +28,12 @@ namespace Employee.API.Controllers
 
         [HttpGet]
         [HttpHead]
-        public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees()
+        public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees([FromQuery]string departmentName,
+            [FromQuery]string searchQuery)
         {
 
             //throw new Exception("Test");
-            var employeesFromRepo = _employeeRepository.GetEmployees();
+            var employeesFromRepo = _employeeRepository.GetEmployees(departmentName , searchQuery);
             return Ok(_mapper.Map<IEnumerable<EmployeeDTO>>(employeesFromRepo));
         }
 

@@ -10,12 +10,12 @@ namespace Employee.API.Repository
     {
         IEnumerable<Entities.Employee> GetEmployeesByDepartment(Guid departmentId);
         IEnumerable<Entities.Employee> GetEmployees();
+        IEnumerable<Entities.Employee> GetEmployees(string departmentName, string searchQuery);
         IEnumerable<Department> GetDepartments();
         Entities.Employee GetEmployee(Guid employeeId);
         bool EmployeeExists(Guid employeeId);
         bool DepartmentExists(Guid departmentId);
         string GetDepartment(Guid departmentId);
-
         Entities.Employee GetEmployeeByDepartment(Guid departmentId);
         bool Save();
     }
