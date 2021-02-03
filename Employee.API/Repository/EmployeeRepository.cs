@@ -1,5 +1,6 @@
 ﻿using Employee.API.DBContext;
 using Employee.API.Entities;
+using Employee.API.ResourceParamemters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,10 +84,18 @@ namespace Employee.API.Repository
         }
 
 
-        public IEnumerable<Entities.Employee> GetEmployees(string departmentName , string searchQuery)
+        public IEnumerable<Entities.Employee> GetEmployees(EmployeeResourceParameter employeeResourceParameter)
         {
-            if (string.IsNullOrWhiteSpace(departmentName)
-                && string.IsNullOrWhiteSpace(searchQuery))
+
+
+            if (employeeResourceParameter == null)
+            {
+                throw new ArgumentNullException(nameof(employeeResourceParameter));
+            }
+
+
+            if (string.IsNullOrWhiteSpace(employeeResourceParameter.DepartmentName)
+                && string.IsNullOrWhiteSpace(employeeResourceParameter.SearchQuery))
             {
                 return GetEmployees();
             }
@@ -111,17 +120,17 @@ namespace Employee.API.Repository
             }
 
 
-            if (!string.IsNullOrWhiteSpace(departmentName))
+            if (!string.IsNullOrWhiteSpace(employeeResourceParameter.DepartmentName))
             {
 
-                departmentName = departmentName.Trim();
+                var departmentName = employeeResourceParameter.DepartmentName.Trim();
                 employeesWithDepartmentName = employeesWithDepartmentName.Where(a => a.Department.DepartmentName == departmentName).ToList();
 
             }
 
-            if (!string.IsNullOrWhiteSpace(searchQuery))
+            if (!string.IsNullOrWhiteSpace(employeeResourceParameter.SearchQuery))
             {
-                searchQuery = searchQuery.Trim();
+                var searchQuery = employeeResourceParameter.SearchQuery.Trim();
                 employeesWithDepartmentName = employeesWithDepartmentName.Where(a => a.FirstName.Contains(searchQuery)
                 || a.LastName.Contains(searchQuery)).ToList();
             }
@@ -138,9 +147,6 @@ namespace Employee.API.Repository
             }
 
             var employeesFromRepo = _context.Employees.Where(a => a.DepartmentId == departmentId);
-
-
-            
 
             return employeesFromRepo;
         }

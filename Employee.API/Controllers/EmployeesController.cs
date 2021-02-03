@@ -2,6 +2,7 @@
 using Employee.API.Helpers;
 using Employee.API.Models;
 using Employee.API.Repository;
+using Employee.API.ResourceParamemters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,12 +29,11 @@ namespace Employee.API.Controllers
 
         [HttpGet]
         [HttpHead]
-        public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees([FromQuery]string departmentName,
-            [FromQuery]string searchQuery)
+        public ActionResult<IEnumerable<EmployeeDTO>> GetEmployees([FromQuery]EmployeeResourceParameter employeeResourceParameter)
         {
 
             //throw new Exception("Test");
-            var employeesFromRepo = _employeeRepository.GetEmployees(departmentName , searchQuery);
+            var employeesFromRepo = _employeeRepository.GetEmployees(employeeResourceParameter);
             return Ok(_mapper.Map<IEnumerable<EmployeeDTO>>(employeesFromRepo));
         }
 
